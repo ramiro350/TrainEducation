@@ -1,0 +1,82 @@
+version: "3.9"
+volumes:
+  db_data_pg:
+  # gem_cache:
+  shared_data_pg:
+  # redis:
+x-app: &base
+  build:
+    dockerfile: 'slim.development.Dockerfile'
+    context: .
+    args:
+      RUBY_VERSION: 3.1.2-slim
+      BUNDLER_VERSION: 2.2.21
+      # UID: "1000"
+      # GID: "1000"
+  working_dir: /workspace/app
+  volumes:
+    - .:/workspace
+    - shared_data_pg:/var/shared
+    # - gem_cache:/usr/local/bundle/gems
+    - /app/node_modules  
+services:
+  # Keycloak server
+
+  # Rails application
+  app:
+    <<: *base
+    command: ['bash']
+    entrypoint: [/entrypoint.sh]
+    depends_on:
+      - keycloak
+      - postgres
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app # Mount your Rails code into the container
+    # command: "bundle exec rails s -b 0"
+    # entrypoint: [/entrypoint]
+    stdin_open: true
+    tty: true
+
+  postgres:
+    image: postgres:latest
+    volumes:
+      - db_data_pg:/var/lib/postgresql/data
+      - shared_data_pg:/var/shared
+    restart: unless-stopped
+    # healthcheck:
+    #   test: ["CMD", "pg_isready", "-U", "keycloak"]
+    environment:
+      POSTGRES_DB: TrainEducation
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+    volumes:
+      - type: tmpfs
+        target: /var/lib/postgresql/data
+        tmpfs:
+          size: 100000000
+    # logging: *logging
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    command: ["start-dev", "--import-realm"]
+    restart: unless-stopped
+    environment:
+      KC_DB: postgres
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: root
+      KC_DB_URL: "jdbc:postgresql://postgres:5432/TrainEducation"
+      # KC_METRICS_ENABLED: true
+      # KC_LOG_LEVEL: ${KC_LOG_LEVEL}
+      # KC_REALM_NAME: ${KC_REALM_NAME}
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8080:8080
+    volumes:
+      - ./keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
+    # logging: *logging
+
+# volumes:
+#   postgres-data: {} # Volume for Postgres data
