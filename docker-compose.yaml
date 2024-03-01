@@ -23,21 +23,21 @@ services:
   # Keycloak server
 
   # Rails application
-  app:
-    <<: *base
-    # command: ['bash']
-    # entrypoint: [/entrypoint.sh]
-    depends_on:
-      - keycloak
-      - postgres
-    ports:
-      - 3000:3000
-    volumes:
-      - .:/app # Mount your Rails code into the container
+  # app:
+  #   <<: *base
+  #   # command: ['bash']
+  #   # entrypoint: [/entrypoint.sh]
+  #   depends_on:
+  #     - keycloak
+  #     - postgres
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - .:/app # Mount your Rails code into the container
     # command: "bundle exec rails s -b 0"
     # entrypoint: [/entrypoint]
-    stdin_open: true
-    tty: true
+    # stdin_open: true
+    # tty: true
 
   postgres:
     image: postgres:latest
@@ -60,7 +60,11 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
-    command: ["start-dev", "--import-realm"]
+    command: 
+      - "start-dev" 
+      - "--http-relative-path"
+      - /auth
+      - "--import-realm"
     restart: unless-stopped
     environment:
       KC_DB: postgres

@@ -1,0 +1,2 @@
+module Users::OmiauthCallbackHelper
+end
