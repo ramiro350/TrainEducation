@@ -6,9 +6,10 @@
       if @user.persisted?
         sign_in_and_redirect @user, event: :authentication
       else
+        debugger
         flash[:error] = 'Error when trying to login with Keycloak, please try again.'
         session["devise.keycloakopenid_data"] = request.env["omniauth.auth"]
-        redirect_to root_path
+        redirect_to pessoas_path
       end
     end
   end
