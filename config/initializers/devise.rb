@@ -50,8 +50,9 @@ Devise.setup do |config|
 
   config.omniauth :keycloak_openid, 
     ENV.fetch('OMNIAUTH_CLIENT', 'TrainEducation'),
-    ENV.fetch('OMNIAUTH_SECRET', 'VTS2fNhqTuKofOmKa5DveUtJqJkt6y2B'),
+    ENV.fetch('OMNIAUTH_SECRET', 'J2MeCZDKf8M1zMDD5jUdYeK2uVrKh3Ws'),
     client_options: {
+      scope: [:openid],
         site: ENV.fetch('OMNIAUTH_SITE', 'http://localhost:8080'),
         realm: ENV.fetch('OMNIAUTH_REALM', 'TrainEducation') },
     strategy_class: OmniAuth::Strategies::KeycloakOpenId
