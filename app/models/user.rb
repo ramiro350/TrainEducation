@@ -10,12 +10,16 @@ class User < ApplicationRecord
 
   def self.from_omniauth(auth)
     auth = JSON.parse auth.to_json, object_class: OpenStruct
-      where(provider: auth.provider, uid: auth.uid).first_or_initialize.tap do |user|
-        user.email            = auth.info.email
-        user.first_name       = auth.info.first_name
-        user.last_name        = auth.info.last_name
-        user.password         = Devise.friendly_token[0, 20]
-        user.save
-      end
+    user = find_or_create_by(uid: auth.uid)
+
+    user.update(
+      email: auth.info.email,
+      first_name: auth.info.first_name,
+      last_name: auth.info.last_name,
+      provider: auth.provider,
+      password: Devise.friendly_token[0, 20]
+    )
+
+    user
   end 
 end
