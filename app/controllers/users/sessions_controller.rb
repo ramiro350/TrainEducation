@@ -1,15 +1,19 @@
 class Users::SessionsController < Devise::SessionsController
 
   def logout
+    # debugger
+    
     destroy
-    Devise.sign_out_all_scopes
+    # debugger
+    # session.delete(:devise)
+    # sign_out current_user
   end
 
   private
 
   def destroy
     super do
-      return redirect_to url_for("localhost:8080/auth/realms/sefin/protocol/openid-connect/logout?post_logout_redirect_uri=/"), allow_other_host: true
+      return redirect_to url_for("http://localhost:8080/auth/realms/TrainEducation/protocol/openid-connect/logout"), allow_other_host: true
     end
   end
 end
