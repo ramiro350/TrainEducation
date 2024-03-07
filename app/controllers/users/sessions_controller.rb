@@ -1,13 +1,7 @@
 class Users::SessionsController < Devise::SessionsController
 
   def logout
-    # debugger
-    
     destroy
-    # redirect_to home_index_path
-    # debugger
-    # session.delete(:devise)
-    # sign_out current_user
   end
 
   private
