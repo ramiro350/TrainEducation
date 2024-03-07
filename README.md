@@ -22,3 +22,7 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+* Keycloak Configuration
+* * web origins = *
+* * post logout redirect = localhost:3000/*
