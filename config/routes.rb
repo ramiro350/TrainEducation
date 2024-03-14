@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     omniauth_callbacks: "users/omniauth_callbacks" ,
     sessions: 'users/sessions'
   }
+
+  resources :datasets
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   devise_scope :user do
     # root to: 'usuarios/sessions#new', as: :root_login
