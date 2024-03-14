@@ -23,6 +23,7 @@ Things you may want to cover:
 
 * ...
 
-* Keycloak Configuration
-* * web origins = *
-* * post logout redirect = localhost:3000/*
+* Keycloak Client Configuration
+* * web origins = https://www.keycloak.org
+* * post logout redirect = http://localhost:3000/*
+* * valid redirect uris /auth/realms/TrainEducation/account/* * 
