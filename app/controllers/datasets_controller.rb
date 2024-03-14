@@ -11,8 +11,9 @@ class DatasetsController < AuthenticatedController
   end
 
   def create
-    debugger
     @dataset = Dataset.new(dataset_params)
+    @dataset.user = current_user
+
     if @dataset.save
       flash[:success] = "Dataset cadastrado."
       redirect_to datasets_path

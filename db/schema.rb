@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_14_135324) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_14_213502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -303,6 +303,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_14_135324) do
     t.text "descricao"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_datasets_on_user_id"
   end
 
   create_table "default_client_scope", primary_key: ["realm_id", "scope_id"], force: :cascade do |t|
@@ -931,6 +933,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_14_135324) do
   add_foreign_key "composite_role", "keycloak_role", column: "child_role", name: "fk_gr7thllb9lu8q4vqa4524jjy8"
   add_foreign_key "composite_role", "keycloak_role", column: "composite", name: "fk_a63wvekftu8jo1pnj81e7mce2"
   add_foreign_key "credential", "user_entity", column: "user_id", name: "fk_pfyr0glasqyl0dei3kl69r6v0"
+  add_foreign_key "datasets", "users"
   add_foreign_key "default_client_scope", "realm", name: "fk_r_def_cli_scope_realm"
   add_foreign_key "federated_identity", "user_entity", column: "user_id", name: "fk404288b92ef007a6"
   add_foreign_key "group_attribute", "keycloak_group", column: "group_id", name: "fk_group_attribute_group"

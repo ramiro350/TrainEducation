@@ -1,4 +1,4 @@
 class Dataset < ApplicationRecord
-  has_one :user
+  belongs_to :user
   has_one_attached :arquivo
 end
