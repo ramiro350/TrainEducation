@@ -1,0 +1,19 @@
+<!-- app/views/datasets/show.html.erb -->
+
+<p>
+  <strong>Name:</strong>
+  <%= @dataset.nome %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @dataset.descricao %>
+</p>
+
+<p>
+  <strong>File:</strong>
+  <%= link_to @dataset.arquivo.filename, @dataset.arquivo.url if @dataset.arquivo.attached? %>
+</p>
+
+<%#= link_to 'Edit', edit_dataset_path(@dataset) %>
+<%= link_to 'Back', datasets_path %>

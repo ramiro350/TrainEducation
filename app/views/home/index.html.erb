@@ -3,6 +3,8 @@
   <%= link_to user_logout_path, method: :post do %>
     <span>Logout</span>
   <% end %>
+  <br>
+  <%= link_to 'Datasets',dataset_index_path%>
 <% else %>
   <%= button_to user_keycloakopenid_omniauth_authorize_path, method: :post, data: { turbo: false } do %>
     <span> Login with Keycloak </span>
