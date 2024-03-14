@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   attr_accessor :provider, :first_name, :last_name, :password
 
+  has_many :datasets
+
   def self.from_omniauth(auth)
     auth = JSON.parse auth.to_json, object_class: OpenStruct
     user = find_or_create_by(uid: auth.uid)
